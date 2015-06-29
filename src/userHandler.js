@@ -4,6 +4,6 @@ var UserHandler = function(authType){
 	}
 
 	function updateUser(user) {
-		
+
 	}
 };

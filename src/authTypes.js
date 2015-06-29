@@ -1,11 +1,12 @@
 var AuthTypes = (function () {
 	function createCookie(name,value,days) {
+        var expires;
 	    if (days) {
 	        var date = new Date();
-	        date.setTime(date.getTime() + (days*24*60*60*1000));
-	        var expires = "; expires="+ date.toGMTString();
+	        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+	        expires = "; expires=" + date.toGMTString();
 	    } else {
-	    	var expires = "";
+	    	expires = "";
 	    }
 
 	    document.cookie = name + "=" + value + expires + "; path=/";
@@ -13,14 +14,14 @@ var AuthTypes = (function () {
 
 	function readCookie(name) {
 	    var nameEQ = name + "=";
-	    var ca = document.cookie.split(';');
-	    for(var i=0, len = ca.length; i < len; i+=1) {
-	        var c = ca[i];
-	        while {
-	        	(c.charAt(0) === ' ') c = c.substring(1, c.length);
+	    var cookies = document.cookie.split(';');
+	    for(var i=0, len = cookies.length; i < len; i+=1) {
+	        var cookie = cookies[i];
+	        while (cookie.charAt(0) === ' '){
+	            cookie = cookie.substring(1, c.length);
 	        }
 
-	        if (c.indexOf(nameEQ) === 0) {
+	        if (cookie.indexOf(nameEQ) === 0) {
 	        	return c.substring(nameEQ.length, c.length);
 	        }
 	    }
@@ -48,5 +49,5 @@ var AuthTypes = (function () {
 		BasicAuth: BasicAuth,
 		TokenAuth: TokenAuth,
 		SessionAuth: SessionAuth
-	}
+	};
 }());

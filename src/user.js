@@ -10,7 +10,7 @@ var User = function() {
 	function validateUsername(value) {
 		if (!value) {
 			throw userErrors.NO_VALUE;
-		} else if (!(typeof value === 'string') || !(value instanceof String) {
+		} else if (!(typeof value === 'string' || value instanceof String)) {
 			throw userErrors.INVALID_DATA_TYPE;
 		} else if (value.length < this.minLength) {
 			throw userErrors.MIN_LENGTH;
