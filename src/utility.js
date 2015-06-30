@@ -40,7 +40,7 @@ var utility = (function () {
     function ajax(settings) {
         var client = getAjaxClient();
 
-        checkHttpMethod(settigs.method);
+        checkHttpMethod(settings.method);
     }
 
     return {
