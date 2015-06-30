@@ -19,17 +19,17 @@ var User = function() {
 			throw userErrors.MAX_LENGTH;
 		}
 	}
-        
-        function validateEmail(value){
-                var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;      
-                if (!value) {
-                        throw userErrors.NO_VALUE_EMAIL;
-                } else if(!(typeof value === 'string' || value instanceof String)){
-                        throw userErrors.INVALID_DATA_TYPE_EMAIL;
-                } else if(re.test(value) === false){ //validate by regex
-                        throw userErrors.INVALID_EMAIL;
-                }
-        }
+
+    function validateEmail(value){
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            if (!value) {
+                    throw userErrors.NO_VALUE_EMAIL;
+            } else if(!(typeof value === 'string' || value instanceof String)){
+                    throw userErrors.INVALID_DATA_TYPE_EMAIL;
+            } else if(re.test(value) === false){ //validate by regex
+                    throw userErrors.INVALID_EMAIL;
+            }
+    }
 
 	function generateInput(type, name, placeholder) {
 		var input = document.createElement('input');
@@ -48,15 +48,15 @@ var User = function() {
 		validateUsername(value);
 		this.username = value;
 	};
-        
-        user.prototype.getEmail = function(){
-                return this.email;
-        };
-        
-        user.prototype.setEmail = function(value){
-                validateEmail(value);
-                this.email = value;
-        };
+
+    user.prototype.getEmail = function(){
+            return this.email;
+    };
+
+    user.prototype.setEmail = function(value){
+            validateEmail(value);
+            this.email = value;
+    };
 
 	user.prototype.generateForm = function () {
 		function formSubmit () {

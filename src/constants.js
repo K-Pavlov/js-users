@@ -2,15 +2,16 @@ var CONSTANTS = (function () {
 	var ERRORS = {
 		USERS: {
 			NO_VALUE_USERNAME: 'No username value',
-                        NO_VALUE_EMAIL: 'No email value',
-                        INVALID_EMAIL: 'Invalid email',
+            NO_VALUE_EMAIL: 'No email value',
+            INVALID_EMAIL: 'Invalid email',
 			INVALID_DATA_TYPE_USERNAME: 'Invalid username type',
-                        INVALID_DATA_TYPE_EMAIL: 'Invalid email type',
+            INVALID_DATA_TYPE_EMAIL: 'Invalid email type',
 			LEN_MIN: 'Username is too short',
 			LEN_MAX: 'Username is too long'
 		},
 		HTTP: {
-			INVALID_METHOD: 'Nonexistent HTTP method'
+			INVALID_METHOD: 'Nonexistent HTTP method',
+			NO_XML_HTTP_CLIENT: 'This browser does not support XMLHttpRequest.'
 		}
 	};
 
@@ -24,6 +25,14 @@ var CONSTANTS = (function () {
 		OPTIONS: 'OPTIONS',
 		CONNECT: 'CONNECT',
 		PATCH: 'PATCH'
+	};
+
+	var HTTP_READY_STATES = {
+		UNSENT: 0,
+		OPENED: 1,
+		HEADERS_RECEIVED: 2,
+		LOADING: 3,
+		DONE: 4
 	};
 
 	return {

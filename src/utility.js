@@ -17,7 +17,7 @@ var utility = (function () {
                 } catch (e) {
                 }
 
-                throw new Error("This browser does not support XMLHttpRequest.");
+                throw CONSTANTS.ERROS.HTTP.NO_XML_HTTP_CLIENT;
             };
         }
 
@@ -37,10 +37,40 @@ var utility = (function () {
         throw CONSTANTS.ERRORS.HTTP.INVALID_METHOD;
     }
 
+    function addHeaders(client, headers) {
+        for(var prop in headers) {
+            if(headers.hasOwnProperty(prop)) {
+                client.setRequestHeader(prop, headers[prop]);
+            }
+        }
+    }
+
+    function onReadyStateChange(success, error) {
+        var readyState = this.readyState,
+            httpReadyStates = CONSTANTS.HTTP_READY_STATES;
+
+        if(readyState === httpReadyStates.UNSENT) {
+            // beforeSend callback
+        } else if(readyState === httpReadyStates.LOADING) {
+            // onLoading callback
+        } else if(readyState === httpReadyStates.DONE) {
+            // check status code
+            // call success / error / complete callbacks
+        }
+    }
+
     function ajax(settings) {
         var client = getAjaxClient();
 
         checkHttpMethod(settings.method);
+
+        if(settings.headers) {
+            addHeaders(client, settings.headers);
+        }
+
+        client.onreadystatechange = function () {
+            onReadyStateChange.call(this, settings.success, settings.error);
+        };
     }
 
     return {
