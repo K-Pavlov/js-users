@@ -40,37 +40,76 @@ var utility = (function () {
     function addHeaders(client, headers) {
         for(var prop in headers) {
             if(headers.hasOwnProperty(prop)) {
+                console.log(prop, headers[prop]);
                 client.setRequestHeader(prop, headers[prop]);
             }
         }
     }
 
-    function onReadyStateChange(success, error) {
+    function onReadyStateChange(settings) {
         var readyState = this.readyState,
-            httpReadyStates = CONSTANTS.HTTP_READY_STATES;
+            httpReadyStates = CONSTANTS.HTTP_READY_STATES,
+            result,
+            status,
+            firstStatusDigit;
 
         if(readyState === httpReadyStates.UNSENT) {
-            // beforeSend callback
+            if(settings.beforeSend) {
+                result = settings.beforeSend(this, settings);
+                // Abort only when false is explictly returned
+                if(result === false) {
+                    this.abort();
+                }
+            }
+        } else if(readyState === httpReadyStates.OPENED) {
+            if(settings.headers) {
+                addHeaders(this, settings.headers);
+            }
         } else if(readyState === httpReadyStates.LOADING) {
-            // onLoading callback
+            if(settings.onLoading) {
+                settings.onLoading(this);
+            }
         } else if(readyState === httpReadyStates.DONE) {
-            // check status code
-            // call success / error / complete callbacks
+            status = this.status;
+            firstStatusDigit = +status.toString()[0];
+            if(firstStatusDigit === 2 || status === 304) {
+                //format response
+                if(settings.success) {
+                    settings.success(this.response, this.status, this);
+                }
+            } else if (firstStatusDigit === 3 || firstStatusDigit === 4 ||
+                       firstStatusDigit === 5 || firstStatusDigit === 0) {
+                if(settings.error) {
+                    settings.error(this, this.status, this.statusText);
+                }
+            }
+
+            if(settings.complete) {
+                settings.complete(this, this.status);
+            }
         }
     }
 
+    // Needs mime type, content type handling
+    // and formatting the response accordingly
     function ajax(settings) {
-        var client = getAjaxClient();
+        var client = getAjaxClient(),
+            type = settings.type;
 
-        checkHttpMethod(settings.method);
-
-        if(settings.headers) {
-            addHeaders(client, settings.headers);
+        if(!type) {
+            type = 'GET';
+        } else {
+            type = type.toUpperCase();
         }
 
+        checkHttpMethod(type);
+        settings.type = type;
         client.onreadystatechange = function () {
-            onReadyStateChange.call(this, settings.success, settings.error);
+            onReadyStateChange.call(this, settings);
         };
+
+        client.open(settings.type, settings.url);
+        client.send();
     }
 
     return {
