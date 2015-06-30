@@ -19,6 +19,15 @@ var User = function() {
 		}
 	}
 
+	function generateInput(type, name, placeholder) {
+		var input = document.createElement('input');
+		input.setAttribute('type', type);
+		input.setAttribute('name', name);
+		input.setAttribute('placeholder', placeholder);
+
+		return input;
+	}
+
 	user.prototype.getUsername = function() {
 		return this.username;
 	};
@@ -29,7 +38,19 @@ var User = function() {
 	};
 
 	user.prototype.generateForm = function () {
-		var form = document.createElement('form');
+		function formSubmit () {
+
+		}
+
+		var form = document.createElement('form'),
+			emailInput = generateInput('email', 'email', 'Email'),
+			usernameInput = generateInput('text', 'username', 'Username'),
+			passwordInput = generateInput('password', 'password', 'Password');
+
+		form.appendChild(usernameInput);
+		form.appendChild(passwordInput);
+		form.appendChild(emailInput);
+		form.submit = formSubmit;
 
 		return form;
 	};
