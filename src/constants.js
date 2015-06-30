@@ -1,8 +1,11 @@
 var CONSTANTS = (function () {
 	var ERRORS = {
 		USERS: {
-			NO_VALUE: 'Invalid username',
-			INVALID_DATA_TYPE: 'Invalid username type',
+			NO_VALUE_USERNAME: 'No username value',
+                        NO_VALUE_EMAIL: 'No email value',
+                        INVALID_EMAIL: 'Invalid email',
+			INVALID_DATA_TYPE_USERNAME: 'Invalid username type',
+                        INVALID_DATA_TYPE_EMAIL: 'Invalid email type',
 			LEN_MIN: 'Username is too short',
 			LEN_MAX: 'Username is too long'
 		},
